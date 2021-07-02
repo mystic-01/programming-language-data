@@ -11,8 +11,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const languages = useSelector((state) => state.language);
   const [currentLanguages, setCurrentLanguages] = useState(languages);
-  console.log(languages);
-  console.log(currentLanguages);
   useEffect(() => {
     dispatch(getLanguages());
   }, []);
