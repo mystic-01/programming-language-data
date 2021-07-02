@@ -11,32 +11,28 @@ const Home = () => {
   const dispatch = useDispatch();
   const languages = useSelector((state) => state.language);
   const [currentLanguages, setCurrentLanguages] = useState(languages);
+
   useEffect(() => {
     dispatch(getLanguages());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCurrentLanguages(languages);
   }, [languages]);
 
   const subLanguagesHandler = (index) => {
-    for (let i = 0; i < currentLanguages.length; i++) {
-      if (i === index) {
-        currentLanguages[i].showSub = !currentLanguages[i].showSub;
-      } else {
-        currentLanguages[i].showSub = false;
-      }
-      setCurrentLanguages([...languages]);
-    }
-    console.log("yo", index);
+    currentLanguages.map(
+      (item, i) => (item.showSub = i === index ? !item.showSub : false)
+    );
+    setCurrentLanguages([...currentLanguages]);
   };
   return (
     <div className="home">
       <h2>Languages</h2>
       <div className="home__languages">
         {currentLanguages.map((language, index) => (
-          <>
-            <div className="home__languageCard" key={index}>
+          <div key={index}>
+            <div className="home__languageCard">
               <CodeIcon className="home__languageImage" />
               <div className="home__languageInfo">
                 <div className="home__languageHeading">
@@ -60,11 +56,11 @@ const Home = () => {
               <div>
                 <h3>Sub Languages of {language.name} :</h3>
                 {currentLanguages[index].subLanguages.map((sub) => (
-                  <li>{sub.name}</li>
+                  <li key={sub.name}>{sub.name}</li>
                 ))}
               </div>
             ) : null}
-          </>
+          </div>
         ))}
       </div>
     </div>
